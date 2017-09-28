@@ -7,7 +7,8 @@ export default function(){
         last: "Roberts",
         age: 71,
         description: "Bucky is a React developer and YouTuber",
-        thumbnail: "http://i.imgur.com/7yUvePI.jpg"
+        thumbnail: "http://i.imgur.com/7yUvePI.jpg",
+        editing: false
     },
     {
         id: 2,
@@ -15,7 +16,8 @@ export default function(){
         last: "Wasilenko",
         age: 27,
         description: "Joby loves the Packers, cheese, and turtles.",
-        thumbnail: "http://i.imgur.com/52xRlm8.png"
+        thumbnail: "http://i.imgur.com/52xRlm8.png",
+        editing: false
     },
     {
         id: 3,
@@ -23,7 +25,8 @@ export default function(){
         last: "Williams",
         age: 24,
         description: "Madi likes her dog but it is really annoying.",
-        thumbnail: "http://i.imgur.com/4EMtxHB.png"
+        thumbnail: "http://i.imgur.com/4EMtxHB.png",
+        editing: false
     }
   ]
 }

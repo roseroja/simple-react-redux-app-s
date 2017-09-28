@@ -5,3 +5,11 @@ export const selectUser = (user) => {
     payload: user
   }
 };
+export const editForm = (profile) => {
+  console.log("You clicked on Edit Form:");
+  console.log(profile);
+  return{
+    type: "EDIT_FORM",
+    payload: profile
+  }
+};
