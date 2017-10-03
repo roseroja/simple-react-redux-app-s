@@ -21,10 +21,10 @@ class UserList extends Component{
     }
   }
 
-  openEditForm(){
+  openEditForm(event){
     let {profile} = this.props;
 
-    console.log('Update Form');
+    console.log('Update Form '+ event.target.key);
     let user = this.state.users.filter((user, index) => {
       if (user.id === 2){
         user.editing = true;
@@ -43,7 +43,7 @@ class UserList extends Component{
           onClick={() => this.props.selectUser(user)}>
             {user.first} {user.last}
         </div>
-        <div><button onClick={this.openEditForm} key={user.id}>Edit</button> | <button>Remove</button> </div>
+        <div><button  key={user.id} onClick={this.openEditForm}>Edit</button> | <button>Remove</button> </div>
         </div>
       );
     })
@@ -63,9 +63,7 @@ function  mapStateToProps(state){
     editing: state.editing
   };
 }
-/*function  matchDispatchToProps(dispatch){
-  return bindActionCreators({selectUser: selectUser}, dispatch)
-}*/
+
 const matchDispatchToProps = (dispatch) => ({
     //actions: bindActionCreators(actions, dispatch),
     selectUser:user => dispatch(selectUser(user)),

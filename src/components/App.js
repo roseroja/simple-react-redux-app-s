@@ -7,15 +7,23 @@ require('../scss/style.scss');
 
 const App = (profile) =>{
 
-  const postPreviews = profile.editing;
+  let postPreviews = false;
+
+  if(profile.profile){
+    postPreviews =  profile.profile.editing;
+  }
+
   return (<div>
     <h2>Username List:</h2>
     <UserList editing={false}/>
     <hr/>
-
-    if(postPreviews){
-      <UserUpdate profile={profile}/>
-    }else{
+    { postPreviews &&
+      <div>
+        <h2>Username Details:</h2>
+        <UserUpdate profile={profile.profile}/>
+      </div>
+    }
+    { !postPreviews &&
       <div>
       <h2>Username Details:</h2>
       <UserDetail />
@@ -24,10 +32,6 @@ const App = (profile) =>{
 
   </div>);
 }
-
-
-
-
 function  mapStateToProps(state){
   return {
     profile: state.allForm
