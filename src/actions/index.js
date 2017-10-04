@@ -7,9 +7,16 @@ export const selectUser = (user) => {
 };
 export const editForm = (profile) => {
   console.log("You clicked on Edit Form:");
-  console.log(profile);
   return{
     type: "EDIT_FORM",
+    payload: profile
+  }
+};
+
+export const clearForm = (profile) => {
+  console.log("You clicked on Clear Form:");
+  return{
+    type: "CLEAR_FORM",
     payload: profile
   }
 };

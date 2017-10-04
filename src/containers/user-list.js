@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectUser, editForm} from '../actions/index';
+import {selectUser, editForm, clearForm} from '../actions/index';
 
 class UserList extends Component{
   constructor(props) {
@@ -23,10 +23,10 @@ class UserList extends Component{
 
   openEditForm(event){
     let {profile} = this.props;
-
-    console.log('Update Form '+ event.target.key);
+    let usrId = event.target.getAttribute('data-key');
+    console.log('Update Form ', usrId);
     let user = this.state.users.filter((user, index) => {
-      if (user.id === 2){
+      if (user.id === parseInt(usrId)){
         user.editing = true;
         return user;
       }
@@ -35,15 +35,20 @@ class UserList extends Component{
     //this.setState({profile: profile});
     this.props.editForm(profile);
   }
+
+  showDetail(user){
+    this.props.clearForm(this.state.profile);
+    this.props.selectUser(user);
+  }
   createListItems(){
     return this.props.users.map((user) => {
       return (
         <div key={user.id}>
         <div
-          onClick={() => this.props.selectUser(user)}>
+          onClick={() => {this.showDetail(user)}}>
             {user.first} {user.last}
         </div>
-        <div><button  key={user.id} onClick={this.openEditForm}>Edit</button> | <button>Remove</button> </div>
+        <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button>Remove</button> </div>
         </div>
       );
     })
@@ -68,6 +73,7 @@ const matchDispatchToProps = (dispatch) => ({
     //actions: bindActionCreators(actions, dispatch),
     selectUser:user => dispatch(selectUser(user)),
     editForm:user => dispatch(editForm(user)),
+    clearForm:user => dispatch(clearForm(user)),
 });
 
 export default connect(mapStateToProps, matchDispatchToProps)(UserList);

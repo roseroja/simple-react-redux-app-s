@@ -4,6 +4,10 @@ export default function(state=null, action){
       console.log('Called Edit form ', action.payload);
       return action.payload;
       break;
+    case "CLEAR_FORM":
+      console.log('Called clear form ', action.payload);
+      return action.payload;
+      break;
   }
   return state;
 }

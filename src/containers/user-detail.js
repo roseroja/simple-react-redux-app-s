@@ -6,6 +6,8 @@ class UserDetail extends Component {
     if(!this.props.user){
       return(<div>Select a user...</div>);
     }
+
+
     return(
       <div>
         <img src={this.props.user.thumbnail}/>
