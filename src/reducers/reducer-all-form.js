@@ -8,6 +8,11 @@ export default function(state=null, action){
       console.log('Called clear form ', action.payload);
       return action.payload;
       break;
+    case "UPDATE_DATA":
+      console.log('Called clear form ', action.payload);
+      return action.payload;
+      break;
+
   }
   return state;
 }

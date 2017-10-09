@@ -20,3 +20,11 @@ export const clearForm = (profile) => {
     payload: profile
   }
 };
+
+export const updateData = (users) => {
+  console.log("You clicked on Clear Form:");
+  return{
+    type: "UPDATE_DATA",
+    payload: users
+  }
+};
