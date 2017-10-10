@@ -9,20 +9,23 @@ class UserList extends Component{
     this.state = {
       editing: this.props.editing,
       users: this.props.users,
-      profile:{}
+      activeUser:{}
     }
     this.openEditForm = this.openEditForm.bind(this);
   }
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', this.state.editing, nextProps);
     if(this.state.editing !== this.props.editing) {
       this.setState({
         editing: this.props.editing
+
       });
     }
   }
 
   openEditForm(event){
-    let {profile} = this.props;
+    this.props.clearForm(this.state.activeUser);
+    let {profile, editing} = this.props;
     let usrId = event.target.getAttribute('data-key');
     console.log('Update Form ', usrId);
     let user = this.state.users.filter((user, index) => {
@@ -32,12 +35,14 @@ class UserList extends Component{
       }
     });
     profile = user[0];
+    editing = true;
     //this.setState({profile: profile});
     this.props.editForm(profile);
   }
 
   showDetail(user){
-    this.props.clearForm(this.state.profile);
+    this.props.clearForm(this.state.activeUser);
+    console.log('showDetail', user);
     this.props.selectUser(user);
   }
   createListItems(){
@@ -64,8 +69,7 @@ class UserList extends Component{
 
 function  mapStateToProps(state){
   return {
-    users: state.users,
-    editing: state.editing
+    users: state.users
   };
 }
 

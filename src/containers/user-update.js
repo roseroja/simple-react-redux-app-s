@@ -15,12 +15,25 @@ class UserUpdate extends Component {
     }
 
     this.updateData = this.updateData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    //this.handleChange = this.handleChange.bind(this);
   }
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps);
+    if(nextProps.profile.first !== this.props.first) {
+      this.setState({
+        id: nextProps.profile.id,
+        first: nextProps.profile.first,
+        last: nextProps.profile.last,
+        age: nextProps.profile.age,
+        description: nextProps.profile.description
+      });
+    }
+  }
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
   updateData(event){
+    this.props.clearForm(this.state.activeUser);
     let {users} = this.props;
     let user = this.state.users.filter((user, index) => {
       if (user.id === parseInt(this.state.id)){
@@ -32,19 +45,19 @@ class UserUpdate extends Component {
       return {user};
     });
     users = user;
-    this.setState({
+    /*this.setState({
       users : users
-    })
+    })*/
     this.props.updateData(users);
   }
 
   render(){
     return(
       <div>
-        First: <input type="text" name="first" value={this.state.first} onChange={this.handleChange}/><br/><br/>
-        Last: <input type="text" name="last" value={this.state.last} onChange={this.handleChange}/><br/><br/>
-        Age: <input type="text" name="age" value={this.state.age} onChange={this.handleChange}/><br/><br/>
-        Desc: <input type="text" name="description" value={this.state.description} onChange={this.handleChange}/><br/><br/>
+        First: <input type="text" name="first" value={this.state.first}  onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
+        Last: <input type="text" name="last" value={this.state.last} onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
+        Age: <input type="text" name="age" value={this.state.age} onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
+        Desc: <input type="text" name="description" value={this.state.description} onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
         <input type="submit" name="Update" value="Update" onClick={this.updateData} key={this.props.profile.id}/><br/><br/>
       </div>
     );
