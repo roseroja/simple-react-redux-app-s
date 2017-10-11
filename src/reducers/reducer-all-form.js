@@ -1,10 +1,5 @@
-import initialState from './initial-state';
 export default function(state=null, action){
   switch(action.type){
-    case "UPDATE_DATA":
-      console.log('Called UPDATE_DATA form ', action.payload);
-      return action.payload;
-      break;
     case "EDIT_FORM":
       console.log('Called Edit form ', action.payload);
       return action.payload;
@@ -13,11 +8,11 @@ export default function(state=null, action){
       console.log('Called clear form ', action.payload);
       return action.payload;
       break;
-    case "REMOVE_DATA":
-      console.log('Called UPDATE_DATA form ', action.payload);
+    case "UPDATE_DATA":
+      console.log('Called clear form ', action.payload);
       return action.payload;
       break;
-      default:
-      return initialState.users
+
   }
+  return state;
 }
