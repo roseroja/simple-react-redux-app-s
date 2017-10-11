@@ -8,9 +8,17 @@ require('../scss/style.scss');
 const App = (profile) =>{
 
   let postPreviews = false;
-  console.log('update Profile', profile.profile);
-  if(profile.profile){
-    postPreviews =  profile.profile.editing;
+  let updateProfile;
+  let user = profile.profile.filter((user, index) => {
+    if (user.editing === true){
+      return user;
+    }
+  });
+
+  console.log('update Profile', user);
+  if(user !=''){
+    updateProfile = user[0];
+    postPreviews =  updateProfile.editing;
   }
 
   return (<div>
@@ -26,7 +34,7 @@ const App = (profile) =>{
     { postPreviews &&
       <div>
         <h2>Update Profile:</h2>
-        <UserUpdate profile={profile.profile}/>
+        <UserUpdate profile={updateProfile}/>
       </div>
     }
 
@@ -35,7 +43,7 @@ const App = (profile) =>{
 }
 function  mapStateToProps(state){
   return {
-    profile: state.activeUser
+    profile: state.users
   };
 }
 

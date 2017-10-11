@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectUser, editForm, clearForm} from '../actions/index';
+import {selectUser, editForm, clearForm, removeData} from '../actions/index';
 
 class UserList extends Component{
   constructor(props) {
@@ -9,7 +9,8 @@ class UserList extends Component{
     this.state = {
       editing: this.props.editing,
       users: this.props.users,
-      activeUser:{}
+      activeUser:{},
+      user:{}
     }
     this.openEditForm = this.openEditForm.bind(this);
   }
@@ -18,26 +19,38 @@ class UserList extends Component{
     if(this.state.editing !== this.props.editing) {
       this.setState({
         editing: this.props.editing
-
       });
     }
   }
 
   openEditForm(event){
     this.props.clearForm(this.state.activeUser);
-    let {profile, editing} = this.props;
+    let {profile} = this.props;
     let usrId = event.target.getAttribute('data-key');
     console.log('Update Form ', usrId);
     let user = this.state.users.filter((user, index) => {
+      user.editing = false;
       if (user.id === parseInt(usrId)){
         user.editing = true;
-        return user;
       }
+      return user;
     });
-    profile = user[0];
-    editing = true;
-    //this.setState({profile: profile});
+    profile = user;
     this.props.editForm(profile);
+  }
+
+  removeDate(event){
+    let usrId = event.target.getAttribute('data-key');
+    console.log('Remove Data ID', usrId);
+    let user = this.state.users.filter((user, index) => {
+      if (user.id === parseInt(usrId)){
+        user = '';
+      }
+      return user;
+    });
+    this.setState({users: user});
+    console.log('Remove Data', user);
+    this.props.removeData(user);
   }
 
   showDetail(user){
@@ -46,14 +59,14 @@ class UserList extends Component{
     this.props.selectUser(user);
   }
   createListItems(){
-    return this.props.users.map((user) => {
+    return this.state.users.map((user) => {
       return (
         <div key={user.id}>
         <div
           onClick={() => {this.showDetail(user)}}>
             {user.first} {user.last}
         </div>
-        <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button>Remove</button> </div>
+        <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button data-key={user.id} onClick={(event)=> {this.removeDate(event)}}>Remove</button> </div>
         </div>
       );
     })
@@ -78,6 +91,7 @@ const matchDispatchToProps = (dispatch) => ({
     selectUser:user => dispatch(selectUser(user)),
     editForm:user => dispatch(editForm(user)),
     clearForm:user => dispatch(clearForm(user)),
+    removeData:user => dispatch(removeData(user)),
 });
 
 export default connect(mapStateToProps, matchDispatchToProps)(UserList);

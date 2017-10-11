@@ -19,10 +19,10 @@ class UserUpdate extends Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps', nextProps);
-    if(nextProps.profile.first !== this.props.first) {
+    if(nextProps.profile.first !== this.props.profile.first) {
       this.setState({
         id: nextProps.profile.id,
-        first: nextProps.profile.first,
+        first: this.props.profile.first,
         last: nextProps.profile.last,
         age: nextProps.profile.age,
         description: nextProps.profile.description
@@ -33,7 +33,7 @@ class UserUpdate extends Component {
     this.setState({[event.target.name]: event.target.value});
   }
   updateData(event){
-    this.props.clearForm(this.state.activeUser);
+    //this.props.clearForm(this.state.activeUser);
     let {users} = this.props;
     let user = this.state.users.filter((user, index) => {
       if (user.id === parseInt(this.state.id)){
@@ -42,12 +42,9 @@ class UserUpdate extends Component {
         user.age = this.state.age;
         user.description = this.state.description;
       }
-      return {user};
+      return user;
     });
     users = user;
-    /*this.setState({
-      users : users
-    })*/
     this.props.updateData(users);
   }
 

@@ -28,3 +28,11 @@ export const updateData = (users) => {
     payload: users
   }
 };
+
+export const removeData = (user) => {
+  console.log("You clicked on Remove Button:");
+  return{
+    type: "REMOVE_DATA",
+    payload: user
+  }
+};
