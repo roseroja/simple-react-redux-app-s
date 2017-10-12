@@ -39,7 +39,7 @@ class UserList extends Component{
     this.props.editForm(profile);
   }
 
-  removeDate(event){
+  removeData(event){
     let usrId = event.target.getAttribute('data-key');
     console.log('Remove Data ID', usrId);
     let user = this.state.users.filter((user, index) => {
@@ -66,7 +66,7 @@ class UserList extends Component{
           onClick={() => {this.showDetail(user)}}>
             {user.first} {user.last}
         </div>
-        <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button data-key={user.id} onClick={(event)=> {this.removeDate(event)}}>Remove</button> </div>
+        <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button data-key={user.id} onClick={(event)=> {this.removeData(event)}}>Remove</button> </div>
         </div>
       );
     })

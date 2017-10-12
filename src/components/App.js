@@ -8,20 +8,34 @@ require('../scss/style.scss');
 const App = (profile) =>{
 
   let postPreviews = false;
-  let updateProfile;
-  let user = profile.profile.filter((user, index) => {
+  let user = profile.profile.find((user, index) => {
     if (user.editing === true){
       return user;
     }
+    return user;
   });
 
-  console.log('update Profile', user);
-  if(user !=''){
-    updateProfile = user[0];
-    postPreviews =  updateProfile.editing;
+  if(typeof user != undefined && user !=''){
+    postPreviews =  user.editing;
   }
 
   return (<div>
+    <div className="fLeft">
+
+      { !postPreviews &&
+        <div>
+          <h2>New Profile:</h2>
+          <UserUpdate profile={"New"}/>
+        </div>
+      }
+      { postPreviews &&
+        <div>
+          <h2>Update Profile:</h2>
+          <UserUpdate profile={user}/>
+        </div>
+      }
+    </div>
+    <div className="fRight">
     <h2>Username List:</h2>
     <UserList editing={false}/>
     <hr/>
@@ -31,13 +45,8 @@ const App = (profile) =>{
       <UserDetail />
       </div>
     }
-    { postPreviews &&
-      <div>
-        <h2>Update Profile:</h2>
-        <UserUpdate profile={updateProfile}/>
-      </div>
-    }
 
+    </div>
 
   </div>);
 }
