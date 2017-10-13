@@ -10,12 +10,13 @@ const App = (profile) =>{
   let postPreviews = false;
   let user = profile.profile.find((user, index) => {
     if (user.editing === true){
-      return user;
+      postPreviews = true;
+      return user.editing;
     }
-    return user;
+
   });
 
-  if(typeof user != undefined && user !=''){
+  if(user !== undefined && user){
     postPreviews =  user.editing;
   }
 

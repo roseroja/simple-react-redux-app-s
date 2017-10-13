@@ -15,9 +15,10 @@ class UserList extends Component{
     this.openEditForm = this.openEditForm.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', this.state.editing, nextProps);
+    console.log('componentWillReceivePropseeeeeeeee', nextProps);
     if(this.state.editing !== this.props.editing) {
       this.setState({
+        users: nextProps.users,
         editing: this.props.editing
       });
     }
@@ -53,17 +54,25 @@ class UserList extends Component{
     this.props.removeData(user);
   }
 
-  showDetail(user){
-    this.props.clearForm(this.state.activeUser);
-    console.log('showDetail', user);
+  showDetail(event){
+    let users = {...this.state.users};
+    users.editing = false;
+    let usrId = event.target.getAttribute('data-active-key');
+    let user = this.state.users.find((user, index) => {
+      user.editing = false;
+      if (user.id === parseInt(usrId)){
+        return user;
+      }
+    });
     this.props.selectUser(user);
   }
   createListItems(){
+    console.log('asdasdfsdfg',this.state.users);
     return this.state.users.map((user) => {
       return (
         <div key={user.id}>
-        <div
-          onClick={() => {this.showDetail(user)}}>
+        <div data-active-key={user.id}
+          onClick={(event) => {this.showDetail(event)}}>
             {user.first} {user.last}
         </div>
         <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button data-key={user.id} onClick={(event)=> {this.removeData(event)}}>Remove</button> </div>
@@ -87,7 +96,6 @@ function  mapStateToProps(state){
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    //actions: bindActionCreators(actions, dispatch),
     selectUser:user => dispatch(selectUser(user)),
     editForm:user => dispatch(editForm(user)),
     clearForm:user => dispatch(clearForm(user)),

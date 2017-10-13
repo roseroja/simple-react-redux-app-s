@@ -1,27 +1,41 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {updateData} from '../actions/index';
+import {updateData, saveData} from '../actions/index';
 
 class UserUpdate extends Component {
   constructor(props) {
     super(props);
+    let id = '';
+    let first='';
+    let last='';
+    let age='';
+    let description='';
+    if(this.props.profile != 'New'){
+      id=this.props.profile.id;
+      first=this.props.profile.first;
+      last=this.props.profile.last;
+      age=this.props.profile.age;
+      description=this.props.profile.description;
+    }
     this.state = {
       users: this.props.users,
       user:{},
-      id:this.props.profile.id,
-      first:this.props.profile.first,
-      last:this.props.profile.last,
-      age:this.props.profile.age,
-      description:this.props.profile.description
+      id:id,
+      first:first,
+      last:last,
+      age:age,
+      description:description,
+
     }
 
     this.updateData = this.updateData.bind(this);
     //this.handleChange = this.handleChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps);
+    //console.log('componentWillReceiveProps', nextProps);
     if(nextProps.profile.first !== this.props.profile.first) {
       this.setState({
+        users:nextProps.users,
         id: nextProps.profile.id,
         first: this.props.profile.first,
         last: nextProps.profile.last,
@@ -49,7 +63,7 @@ class UserUpdate extends Component {
     this.props.updateData(users);
   }
 
-  saveData(event){
+  /*saveData(event){
     let previousUser = this.state.users;
     let { user } = this.state.user;
     //console.log("new user add", previousUser);
@@ -67,6 +81,20 @@ class UserUpdate extends Component {
         }
     });
     console.log("new user add", previousUser);
+  }*/
+  saveData(event){
+    let user = {...this.state.user};
+    let {users} = this.props;
+    user.id = parseInt(this.props.users.length)+1;
+    user.first= this.state.first;
+    user.last=this.state.last;
+    user.age=this.state.first;
+    user.description=this.state.description;
+    user.editing=false;
+    user.thumbnail='http://i.imgur.com/52xRlm8.png';
+    //users = {...this.state.users, user}
+    this.props.saveData(user);
+    console.log('saveData', this.state.users);
   }
 
   render(){
@@ -76,7 +104,7 @@ class UserUpdate extends Component {
       isFormNew = true;
     }
     if (isFormNew) {
-      button = <div><input type="submit" name="New" value="New" onClick={(event)=> {this.saveData(event)}} /><br/><br/></div>
+      button = <div><input type="submit" name="Save" value="Save" onClick={(event)=> {this.saveData(event)}} /><br/><br/></div>
     } else {
       button = <div><input type="submit" name="Update" value="Update" onClick={(event)=> {this.updateData(event)}} key={this.props.profile.id}/><br/><br/></div>
     }
@@ -99,7 +127,8 @@ function  mapStateToProps(state){
   };
 }
 const matchDispatchToProps = (dispatch) => ({
-  updateData:users => dispatch(updateData(users))
+  updateData:users => dispatch(updateData(users)),
+  saveData:users => dispatch(saveData(users))
 });
 
 export default connect(mapStateToProps,matchDispatchToProps)(UserUpdate);

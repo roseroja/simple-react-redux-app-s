@@ -5,6 +5,11 @@ export default function(state=null, action){
       console.log('Called UPDATE_DATA form ', action.payload);
       return action.payload;
       break;
+    case "SAVE_DATA":
+      console.log('Called SAVE_DATA form ', action.payload);
+      return [...state, action.payload];
+      //return action.payload;
+      break;
     case "EDIT_FORM":
       console.log('Called Edit form ', action.payload);
       return action.payload;
