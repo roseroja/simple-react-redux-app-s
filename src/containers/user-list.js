@@ -15,17 +15,23 @@ class UserList extends Component{
     this.openEditForm = this.openEditForm.bind(this);
   }
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps-nextProps', nextProps);
     if(this.state.editing !== this.props.editing) {
       this.setState({
         users: this.props.users,
-        editing: this.props.editing
+        editing: "false"
       });
     }
   }
   shouldComponentUpdate(nextProps, nextState){
-    console.log('shouldComponentUpdate', this.props.users);
-    this.state.users = this.props.users;
-    return this.state.users;
+    console.log('shouldComponentUpdate-nextProps', nextProps);
+    console.log('shouldComponentUpdate-nextState', nextState);
+    let user = nextProps.users.filter((user, index) => {
+      user.editing = false;
+      return user;
+    });
+    console.log('shouldComponentUpdate-user', user);
+    return user;
   }
   openEditForm(event){
     this.props.clearForm(this.state.activeUser);
@@ -59,7 +65,6 @@ class UserList extends Component{
 
   showDetail(user){
     //this.props.clearForm(this.state.activeUser);
-    user.editForm = false;
     console.log('showDetail', user);
     this.props.selectUser(user);
   }

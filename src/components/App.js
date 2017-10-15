@@ -57,5 +57,4 @@ function  mapStateToProps(state){
     profile: state.users
   };
 }
-
 export default connect(mapStateToProps)(App);
