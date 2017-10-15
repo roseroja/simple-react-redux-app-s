@@ -67,6 +67,22 @@ class UserUpdate extends Component {
     let previousUser = this.state.users;
     let { user } = this.state.user;
     //console.log("new user add", previousUser);
+
+
+    this.setState(previousUser =>({
+            users: [
+              ...previousUser,
+              {
+                id:4,
+                first : this.state.first,
+                last: this.state.last,
+                age : this.state.age,
+                description : this.state.description,
+                editing : false
+              }
+            ]
+        }));
+
     this.setState({
         users:{
           ...previousUser,
@@ -84,7 +100,6 @@ class UserUpdate extends Component {
   }*/
   saveData(event){
     let user = {...this.state.user};
-    let {users} = this.props;
     user.id = parseInt(this.props.users.length)+1;
     user.first= this.state.first;
     user.last=this.state.last;
@@ -92,9 +107,18 @@ class UserUpdate extends Component {
     user.description=this.state.description;
     user.editing=false;
     user.thumbnail='http://i.imgur.com/52xRlm8.png';
-    //users = {...this.state.users, user}
+
+
+    const objKey = parseInt(this.props.users.length)+1;
+    //let users = {...this.state.users};
+    //users[objKey] = user;
     this.props.saveData(user);
-    console.log('saveData', this.state.users);
+    this.setState({
+      first:'',
+      last:'',
+      age:'',
+      description:''
+    });
   }
 
   render(){
@@ -109,7 +133,6 @@ class UserUpdate extends Component {
       button = <div><input type="submit" name="Update" value="Update" onClick={(event)=> {this.updateData(event)}} key={this.props.profile.id}/><br/><br/></div>
     }
     return(
-
         <div>
           First: <input type="text" name="first" value={this.state.first}  onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
           Last: <input type="text" name="last" value={this.state.last} onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
@@ -117,7 +140,6 @@ class UserUpdate extends Component {
           Desc: <input type="text" name="description" value={this.state.description} onChange={(event)=> {this.handleChange(event)}}/><br/><br/>
           {button}
         </div>
-
     );
   }
 }

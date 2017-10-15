@@ -7,6 +7,7 @@ require('../scss/style.scss');
 
 const App = (profile) =>{
 
+  console.log('APP', profile.profile);
   let postPreviews = false;
   let user = profile.profile.find((user, index) => {
     if (user.editing === true){

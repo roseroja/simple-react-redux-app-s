@@ -15,15 +15,18 @@ class UserList extends Component{
     this.openEditForm = this.openEditForm.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceivePropseeeeeeeee', nextProps);
     if(this.state.editing !== this.props.editing) {
       this.setState({
-        users: nextProps.users,
+        users: this.props.users,
         editing: this.props.editing
       });
     }
   }
-
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('shouldComponentUpdate', this.props.users);
+    this.state.users = this.props.users;
+    return this.state.users;
+  }
   openEditForm(event){
     this.props.clearForm(this.state.activeUser);
     let {profile} = this.props;
@@ -54,25 +57,18 @@ class UserList extends Component{
     this.props.removeData(user);
   }
 
-  showDetail(event){
-    let users = {...this.state.users};
-    users.editing = false;
-    let usrId = event.target.getAttribute('data-active-key');
-    let user = this.state.users.find((user, index) => {
-      user.editing = false;
-      if (user.id === parseInt(usrId)){
-        return user;
-      }
-    });
+  showDetail(user){
+    //this.props.clearForm(this.state.activeUser);
+    user.editForm = false;
+    console.log('showDetail', user);
     this.props.selectUser(user);
   }
   createListItems(){
-    console.log('asdasdfsdfg',this.state.users);
-    return this.state.users.map((user) => {
+    return this.props.users.map((user) => {
       return (
         <div key={user.id}>
         <div data-active-key={user.id}
-          onClick={(event) => {this.showDetail(event)}}>
+          onClick={()=> {this.showDetail(user)}}>
             {user.first} {user.last}
         </div>
         <div><button  data-key={user.id} onClick={(event)=> {this.openEditForm(event)}} >Edit</button> | <button data-key={user.id} onClick={(event)=> {this.removeData(event)}}>Remove</button> </div>
@@ -81,6 +77,7 @@ class UserList extends Component{
     })
   }
   render(){
+    this.state.users =  this.props.users;
     return(
       <div>
         {this.createListItems()}
