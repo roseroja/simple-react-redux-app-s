@@ -8,22 +8,42 @@ require('../scss/style.scss');
 const App = (profile) =>{
 
   let postPreviews = false;
-  let updateProfile;
-  let user = profile.profile.filter((user, index) => {
-    if (user.editing === true){
-      return user;
+  let postListing = false;
+  let user;
+  if(profile.profile !== undefined ){
+    postListing = true;
+    user = profile.profile.find((user, index) => {
+      if (user.editing === true){
+        postPreviews = true;
+        return user;
+      }
+
+    });
+    if(user !== undefined && user){
+      postPreviews =  user.editing;
     }
-  });
-
-  console.log('update Profile', user);
-  if(user !=''){
-    updateProfile = user[0];
-    postPreviews =  updateProfile.editing;
   }
-
   return (<div>
+    <div className="fLeft">
+
+      { !postPreviews &&
+        <div>
+          <h2>New Profile:</h2>
+          <UserUpdate profile={"New"}/>
+        </div>
+      }
+      { postPreviews &&
+        <div>
+          <h2>Update Profile:</h2>
+          <UserUpdate profile={user}/>
+        </div>
+      }
+    </div>
+    <div className="fRight">
     <h2>Username List:</h2>
-    <UserList editing={false}/>
+    { postListing &&
+      <UserList editing={false}/>
+    }
     <hr/>
     { !postPreviews &&
       <div>
@@ -31,13 +51,8 @@ const App = (profile) =>{
       <UserDetail />
       </div>
     }
-    { postPreviews &&
-      <div>
-        <h2>Update Profile:</h2>
-        <UserUpdate profile={updateProfile}/>
-      </div>
-    }
 
+    </div>
 
   </div>);
 }
@@ -46,5 +61,4 @@ function  mapStateToProps(state){
     profile: state.users
   };
 }
-
 export default connect(mapStateToProps)(App);

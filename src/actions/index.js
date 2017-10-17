@@ -21,6 +21,14 @@ export const clearForm = (profile) => {
   }
 };
 
+export const saveData = (user) => {
+  console.log("You clicked on Save Button:");
+  return{
+    type: "SAVE_DATA",
+    payload: user
+  }
+};
+
 export const updateData = (users) => {
   console.log("You clicked on Clear Form:");
   return{

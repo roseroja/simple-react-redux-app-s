@@ -18,6 +18,9 @@
   font-size: large;
 }
 
+.fLeft{float: left;}
+.rRight{float: right;}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
