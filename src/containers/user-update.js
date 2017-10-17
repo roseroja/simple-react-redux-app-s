@@ -10,7 +10,9 @@ class UserUpdate extends Component {
     let last='';
     let age='';
     let description='';
+    let users = [];
     if(this.props.profile != 'New'){
+      users = this.props.users;
       id=this.props.profile.id;
       first=this.props.profile.first;
       last=this.props.profile.last;
@@ -18,8 +20,8 @@ class UserUpdate extends Component {
       description=this.props.profile.description;
     }
     this.state = {
-      users: this.props.users,
-      user:{},
+      users: users,
+      user:[],
       id:id,
       first:first,
       last:last,
@@ -100,25 +102,37 @@ class UserUpdate extends Component {
   }*/
   saveData(event){
     let user = {...this.state.user};
-    user.id = parseInt(this.props.users.length)+1;
+    let lenKey = 0;
+    if(this.props.users && this.props.users.length > 0){
+      lenKey  =  parseInt(this.props.users.length)+1;
+    }else{
+      lenKey  =  parseInt(lenKey)+1;
+    }
+    console.log('sdfgsdfgsdf',lenKey);
+    user.id = lenKey;
     user.first= this.state.first;
     user.last=this.state.last;
     user.age=this.state.first;
     user.description=this.state.description;
     user.editing=false;
     user.thumbnail='http://i.imgur.com/52xRlm8.png';
-
-
-    const objKey = parseInt(this.props.users.length)+1;
-    //let users = {...this.state.users};
-    //users[objKey] = user;
-    this.props.saveData(user);
     this.setState({
       first:'',
       last:'',
       age:'',
       description:''
     });
+
+    let u = [...this.state.users, user];
+    let previousState = this.state.users;
+
+    this.setState(previousState => ({
+      users: [...previousState, user
+      ]
+    }));
+
+    this.props.saveData(user);
+
   }
 
   render(){

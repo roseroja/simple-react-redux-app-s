@@ -7,20 +7,22 @@ require('../scss/style.scss');
 
 const App = (profile) =>{
 
-  console.log('APP', profile.profile);
   let postPreviews = false;
-  let user = profile.profile.find((user, index) => {
-    if (user.editing === true){
-      postPreviews = true;
-      return user.editing;
+  let postListing = false;
+  let user;
+  if(profile.profile !== undefined ){
+    postListing = true;
+    user = profile.profile.find((user, index) => {
+      if (user.editing === true){
+        postPreviews = true;
+        return user;
+      }
+
+    });
+    if(user !== undefined && user){
+      postPreviews =  user.editing;
     }
-
-  });
-
-  if(user !== undefined && user){
-    postPreviews =  user.editing;
   }
-
   return (<div>
     <div className="fLeft">
 
@@ -39,7 +41,9 @@ const App = (profile) =>{
     </div>
     <div className="fRight">
     <h2>Username List:</h2>
-    <UserList editing={false}/>
+    { postListing &&
+      <UserList editing={false}/>
+    }
     <hr/>
     { !postPreviews &&
       <div>

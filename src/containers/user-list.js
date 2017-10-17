@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectUser, editForm, clearForm, removeData} from '../actions/index';
+import * as actions from '../actions/index';
 
 class UserList extends Component{
   constructor(props) {
@@ -34,7 +34,7 @@ class UserList extends Component{
     return user;
   }
   openEditForm(event){
-    this.props.clearForm(this.state.activeUser);
+    this.props.actions.clearForm(this.state.activeUser);
     let {profile} = this.props;
     let usrId = event.target.getAttribute('data-key');
     console.log('Update Form ', usrId);
@@ -46,7 +46,7 @@ class UserList extends Component{
       return user;
     });
     profile = user;
-    this.props.editForm(profile);
+    this.props.actions.editForm(profile);
   }
 
   removeData(event){
@@ -60,13 +60,13 @@ class UserList extends Component{
     });
     this.setState({users: user});
     console.log('Remove Data', user);
-    this.props.removeData(user);
+    this.props.actions.removeData(user);
   }
 
   showDetail(user){
     //this.props.clearForm(this.state.activeUser);
     console.log('showDetail', user);
-    this.props.selectUser(user);
+    this.props.actions.selectUser(user);
   }
   createListItems(){
     return this.props.users.map((user) => {
@@ -97,11 +97,17 @@ function  mapStateToProps(state){
   };
 }
 
-const matchDispatchToProps = (dispatch) => ({
-    selectUser:user => dispatch(selectUser(user)),
+const matchDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+/*const matchDispatchToProps = (dispatch) => ({
+    selectUser:activeUser => dispatch(selectUser(activeUser)),
     editForm:user => dispatch(editForm(user)),
     clearForm:user => dispatch(clearForm(user)),
     removeData:user => dispatch(removeData(user)),
-});
+});*/
 
 export default connect(mapStateToProps, matchDispatchToProps)(UserList);

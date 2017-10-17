@@ -4,9 +4,8 @@ import ActiveUserReducer from './reducer-active-user';
 //import AllFormReducer from './reducer-all-form';
 
 const allReducers = combineReducers({
-  users: UserReducer,
-  activeUser: ActiveUserReducer/*,
-  allForm: AllFormReducer*/
+  activeUser: ActiveUserReducer,
+  users: UserReducer
 });
 
 export default allReducers;

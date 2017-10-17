@@ -1,5 +1,5 @@
 import initialState from './initial-state';
-export default function(state=null, action){
+export default function(state: users=initialState.users, action){
   switch(action.type){
     case "UPDATE_DATA":
       console.log('Called UPDATE_DATA form ', action.payload);
@@ -23,6 +23,6 @@ export default function(state=null, action){
       return action.payload;
       break;
       default:
-      return initialState.users
+      return state
   }
 }
